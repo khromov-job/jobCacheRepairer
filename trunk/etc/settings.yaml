@@ -1,0 +1,15 @@
+version: 1
+
+data_sources:
+    id: cache
+    type: WEB
+    params:
+      username: job2
+      password: job2
+      depth: 1
+      store_days: 21
+      type: delivery
+      db_path: /root/work_venv/job_CacheRepairer/database.sqlite
+      data_host: http://tb-pod-ext.sec45.ccr.dep4.niitp:2088/api/
+      data_uri: storage/cache.ext-json/
+      auth_url: http://tb-pod-ext.sec45.ccr.dep4.niitp:2088/api/auth/authenticate.ext-json/

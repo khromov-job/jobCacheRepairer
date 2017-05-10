@@ -1,0 +1,44 @@
+version: 1
+disable_existing_loggers: False
+# объекты, задающие формат вывода сообщений хендлера
+formatters:
+  syslog_format:
+    format: '%(processName)s[%(process)d]: %(unitype)s%(uniapp)s%(message)s'
+  file_format:
+    format: '[%(asctime)s]  %(levelname)-7s  %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+# хендлеры - управляют потоком вывода сообщений
+handlers:
+  file: # имя хендлера
+    class: logging.FileHandler # тип хендлера (файловый, консольный,...)
+    level: DEBUG # уровень логгирования
+    formatter: file_format # задает формат вывода
+    filename: /tmp/jobCacheRepairer.log # путь к лог-файлу
+    mode: a
+  syslog:
+    class: logging.handlers.SysLogHandler
+    address: /dev/log
+    level: DEBUG
+    formatter: syslog_format
+
+# Нужно ли вообще перечислять все логеры здесь или достаточно задать параметры для root, которые будут наследоваться
+# остальными логерами
+# логгеры - могут работать с несколькими хендлерами с разными уровнями логирования
+loggers:
+  cache_repairer:
+    level: DEBUG
+    handlers: [file]
+    propagate: no
+  job_launcher:
+    level: DEBUG # уровень логирования логгера (хендлеры не могут иметь уровень более подробный)
+    handlers: [syslog] # выбор хендлеров
+    propagate: no # будет ли логгер распространять сообщения хендлерам, связанным с родительским логгером
+  requests:
+    hadlers: logging.NullHandler
+    propagate: no
+
+
+root: # родительский логгер (по умолчанию)
+  level: DEBUG
+  handlers: [file]

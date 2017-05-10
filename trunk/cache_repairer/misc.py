@@ -1,0 +1,1 @@
+__uniapp__ = '[uniapp app_name=JobCacheRepairer {identifiers}]'
